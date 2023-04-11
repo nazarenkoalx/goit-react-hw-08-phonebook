@@ -27,7 +27,7 @@ export function App() {
           <Route index element={<Landing />} />
           <Route path="register" element={<SignUp />} />
           <Route path="login" element={<Login />} />
-          <Route path="contacts" element={<Landing />} />
+          {/* <Route path="contacts" element={<Landing />} /> */}
           {/* <Route path="contacts/:id" element={<MovieDetails />} /> */}
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
