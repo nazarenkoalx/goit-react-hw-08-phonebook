@@ -4,7 +4,7 @@ import { Form, SubmitButton } from './ContactForm.styled';
 import { object, string } from 'yup';
 import { Section } from 'components/Section/Section.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/contactSlice/operationsContacts';
+import { addContact } from 'redux/contactSlice/operations';
 import { selectContacts } from 'redux/selectors';
 import { notifyError, notifySuccess } from 'services/notifications';
 

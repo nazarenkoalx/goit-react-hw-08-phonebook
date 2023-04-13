@@ -1,14 +1,14 @@
 import { Container } from 'components/Container/Container.styled';
 import { Footer } from 'components/Footer/Footer';
-import { Header } from 'components/Header/Header';
-import { NavLink, Outlet } from 'react-router-dom';
+import { AppBar } from 'components/AppBar/AppBar';
+import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const SharedLayout = () => {
   return (
     <Container>
-      <Header />
+      <AppBar />
       <Outlet />
       <Footer />
       <ToastContainer />

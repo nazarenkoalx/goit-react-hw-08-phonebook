@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
-export const Header = () => {
+export const AppBar = () => {
   return (
     <header>
       <NavLink to="/">Home</NavLink>

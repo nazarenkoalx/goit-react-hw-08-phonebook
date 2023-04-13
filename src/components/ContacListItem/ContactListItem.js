@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/contactSlice/operationsContacts';
+import { deleteContact } from 'redux/contactSlice/operations';
 import PropTypes from 'prop-types';
 import { notifyWarn } from 'services/notifications';
 
