@@ -69,7 +69,7 @@ function SignUp() {
           helperText={formik.touched.password && formik.errors.password}
         />
         <Button color="primary" variant="contained" type="submit">
-          Submit
+          Sign Up
         </Button>
       </StyledForm>
     </FormWrapper>
