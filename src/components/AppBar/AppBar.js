@@ -5,9 +5,6 @@ import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import SearchIcon from '@mui/icons-material/Search';
 import { NavWrapper, StyledNavLink, AuthWrapper } from './AppBar.styled';
 import LoginIcon from '@mui/icons-material/Login';
 import AssignmentIcon from '@mui/icons-material/Assignment';
@@ -15,47 +12,9 @@ import HomeIcon from '@mui/icons-material/Home';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsLoggedIn, selectUser } from 'redux/authSlice/selectors';
 import { logOut } from 'redux/authSlice/operations';
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
-  },
-}));
+import ContactsIcon from '@mui/icons-material/Contacts';
+import { useNavigate } from 'react-router-dom';
+import { Filter } from 'components/Filter/Filter';
 
 export default function NavAppBar() {
   const dispatch = useDispatch();
@@ -75,6 +34,11 @@ export default function NavAppBar() {
     setAnchorEl(null);
   };
 
+  const navigate = useNavigate();
+  const contactsRedirect = () => {
+    let path = `/contacts`;
+    navigate(path);
+  };
   return (
     <AppBar position="static">
       <Toolbar>
@@ -82,7 +46,7 @@ export default function NavAppBar() {
           <StyledNavLink to="/">
             <HomeIcon sx={{ mr: 0.5 }} /> home
           </StyledNavLink>
-          {!auth ? (
+          {!auth && (
             <AuthWrapper>
               <StyledNavLink to="register">
                 <AssignmentIcon sx={{ mr: 0.5 }} />
@@ -94,21 +58,17 @@ export default function NavAppBar() {
                 login
               </StyledNavLink>
             </AuthWrapper>
-          ) : null}
+          )}
         </NavWrapper>
         {auth && (
           <>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search contacts"
-                inputProps={{ 'aria-label': 'search contacts' }}
-              />
-            </Search>
+            <StyledNavLink to="contacts">
+              <ContactsIcon sx={{ mr: 0.5 }} />
+              contacts
+            </StyledNavLink>
+            <Filter />
             <div>
-              <p> hello pidor {userName} </p>
+              <p> Hello, {userName}! </p>
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -135,7 +95,7 @@ export default function NavAppBar() {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={contactsRedirect}>Contacts</MenuItem>
                 <MenuItem onClick={handleLogOut}>Log out</MenuItem>
               </Menu>
             </div>

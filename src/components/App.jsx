@@ -5,6 +5,8 @@ import Contacts from 'pages/Contacts';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCurrentUser } from 'redux/authSlice/operations';
 import { selectIsFetchingCurrentUser } from 'redux/authSlice/selectors';
+import PrivateRoute from './PrivateRoute/PrivateRoute';
+import RestrictedRoute from './RestrictedRoute/RestrictedRoute';
 
 const SharedLayout = lazy(() => import('./SharedLayout/SharedLayout'));
 const Landing = lazy(() => import('../pages/Landing'));
@@ -25,9 +27,24 @@ export function App() {
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<Landing />} />
-          <Route path="register" element={<SignUp />} />
-          <Route path="login" element={<Login />} />
-          <Route path="contacts" element={<Contacts />} />
+          <Route
+            path="register"
+            element={
+              <RestrictedRoute component={<SignUp />} redirectTo="/contacts" />
+            }
+          />
+          <Route
+            path="login"
+            element={
+              <RestrictedRoute component={<Login />} redirectTo="/contacts" />
+            }
+          />
+          <Route
+            path="contacts"
+            element={
+              <PrivateRoute component={<Contacts />} redirectTo="/login" />
+            }
+          />
           {/* <Route path="contacts/:id" element={<MovieDetails />} /> */}
         </Route>
         <Route path="*" element={<Navigate to="/" />} />

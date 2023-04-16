@@ -7,7 +7,6 @@ import {
 } from 'redux/contactSlice/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchContacts } from 'redux/contactSlice/operations';
-import { Filter } from '../components/Filter/Filter';
 import { Container } from '../components/Container/Container.styled';
 import { ContactForm } from '../components/ContactForm/ContactForm';
 import { Loader } from '../components/Loading/Loading';
@@ -25,7 +24,6 @@ function Contacts() {
       <Container>
         {isLoading && <Loader />}
         <ContactForm />
-        <Filter />
         {visibleContacts.length > 0 ? (
           <ContactList />
         ) : (

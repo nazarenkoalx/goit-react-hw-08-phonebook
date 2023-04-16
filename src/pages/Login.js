@@ -30,7 +30,6 @@ const Login = () => {
     },
     validationSchema: validationSchema,
     onSubmit: ({ email, password }) => {
-      console.log({ email, password });
       handleFormSubmit({ email, password });
     },
   });
