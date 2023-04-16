@@ -10,6 +10,7 @@ import { fetchContacts } from 'redux/contactSlice/operations';
 import { Container } from '../components/Container/Container.styled';
 import { ContactForm } from '../components/ContactForm/ContactForm';
 import { Loader } from '../components/Loading/Loading';
+import { Filter } from 'components/Filter/Filter';
 
 function Contacts() {
   const dispatch = useDispatch();
@@ -22,8 +23,10 @@ function Contacts() {
   return (
     <>
       <Container>
+        <Filter />
         {isLoading && <Loader />}
         <ContactForm />
+
         {visibleContacts.length > 0 ? (
           <ContactList />
         ) : (

@@ -3,13 +3,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logOut } from 'redux/authSlice/operations';
 import { selectUser } from 'redux/authSlice/selectors';
-import { Filter } from 'components/Filter/Filter';
-import { StyledNavLink } from 'components/AppBar/AppBar.styled';
 import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import ContactsIcon from '@mui/icons-material/Contacts';
+import { UserInfo, UserMenuStyled } from './UserMenu.styled';
 
 export function UserMenu() {
   const user = useSelector(selectUser);
@@ -37,14 +35,9 @@ export function UserMenu() {
   };
 
   return (
-    <>
-      <StyledNavLink to="contacts">
-        <ContactsIcon sx={{ mr: 0.5 }} />
-        contacts
-      </StyledNavLink>
-      <Filter />
-      <div>
-        <p> Hello, {userName}! </p>
+    <UserMenuStyled>
+      <UserInfo>
+        <p> Hello there, {userName}! </p>
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -74,7 +67,7 @@ export function UserMenu() {
           <MenuItem onClick={contactsRedirect}>Contacts</MenuItem>
           <MenuItem onClick={handleLogOut}>Log out</MenuItem>
         </Menu>
-      </div>
-    </>
+      </UserInfo>
+    </UserMenuStyled>
   );
 }

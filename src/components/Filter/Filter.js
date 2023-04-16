@@ -56,7 +56,7 @@ export function Filter() {
   };
 
   return (
-    <Search>
+    <Search sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
