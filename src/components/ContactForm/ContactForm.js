@@ -5,7 +5,7 @@ import { object, string } from 'yup';
 import { Section } from 'components/Section/Section.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/contactSlice/operations';
-import { selectContacts } from 'redux/selectors';
+import { selectContacts } from 'redux/contactSlice/selectors';
 import { notifyError, notifySuccess } from 'services/notifications';
 
 let ContactsSchema = object({

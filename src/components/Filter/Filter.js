@@ -3,7 +3,7 @@ import { Wrapper } from 'components/Wrapper/Wrapper.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFilter } from 'redux/filterSlice/slice';
 import { Input } from './Filter.styled';
-import { selectFilter } from 'redux/selectors';
+import { selectFilter } from 'redux/contactSlice/selectors';
 
 export const Filter = () => {
   const dispatch = useDispatch();

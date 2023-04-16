@@ -7,12 +7,14 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const SharedLayout = () => {
   return (
-    <Container>
+    <>
       <NavAppBar />
-      <Outlet />
-      <Footer />
-      <ToastContainer />
-    </Container>
+      <Container>
+        <Outlet />
+        <Footer />
+        <ToastContainer />
+      </Container>
+    </>
   );
 };
 

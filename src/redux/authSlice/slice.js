@@ -1,10 +1,11 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { logIn, logOut, signUp } from './operations';
+import { logIn, logOut, signUp, fetchCurrentUser } from './operations';
 
 const initialState = {
   user: { name: null, password: null },
   token: null,
   isLoggedIn: false,
+  isFetchingCurrentUser: false,
 };
 
 const declaredActions = [logIn, logOut, signUp];
@@ -16,12 +17,8 @@ const handlePending = state => {
   state.isLoggedIn = false;
 };
 
-const handleFulfilled = (state, { payload }) => {};
-
-const handleRejected = (state, payload) => {
+const handleRejected = state => {
   state.isLoggedIn = false;
-  // state.isLoading = false;
-  // state.error = payload;
 };
 
 export const userSlice = createSlice({
@@ -44,8 +41,18 @@ export const userSlice = createSlice({
         state.user = payload.user;
         state.isLoggedIn = true;
       })
+      .addCase(fetchCurrentUser.pending, state => {
+        state.isFetchingCurrentUser = true;
+      })
+      .addCase(fetchCurrentUser.fulfilled, (state, { payload }) => {
+        state.user = payload;
+        state.isLoggedIn = true;
+        state.isFetchingCurrentUser = false;
+      })
+      .addCase(fetchCurrentUser.rejected, state => {
+        state.isFetchingCurrentUser = false;
+      })
       .addMatcher(isAnyOf(...getAction('pending')), handlePending)
-      .addMatcher(isAnyOf(...getAction('fulfilled')), handleFulfilled)
       .addMatcher(isAnyOf(...getAction('rejected')), handleRejected),
 });
 

@@ -12,15 +12,18 @@ const tokenSetter = {
   },
 };
 
-export const logIn = createAsyncThunk('users/login', async (_, thunkAPI) => {
-  try {
-    const { data } = await axios.post('users/login');
-    tokenSetter.set(data.token);
-    return data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
+export const logIn = createAsyncThunk(
+  'users/login',
+  async ({ password, email }, thunkAPI) => {
+    try {
+      const { data } = await axios.post('users/login', { email, password });
+      tokenSetter.set(data.token);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
-});
+);
 
 export const signUp = createAsyncThunk(
   'users/signup',
@@ -49,4 +52,21 @@ export const logOut = createAsyncThunk('users/logout', async (_, thunkAPI) => {
   }
 });
 
-export const updateUser = createAsyncThunk();
+export const fetchCurrentUser = createAsyncThunk(
+  'auth/refresh',
+  async (_, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+      const persistedToken = state.user.token;
+
+      if (persistedToken === null) {
+        return thunkAPI.rejectWithValue('Unable to fetch user');
+      }
+      tokenSetter.set(persistedToken);
+      const response = await axios.get('users/current');
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);

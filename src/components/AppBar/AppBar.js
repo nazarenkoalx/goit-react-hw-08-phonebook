@@ -1,18 +1,20 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import { NavLink } from 'react-router-dom';
+import { NavWrapper, StyledNavLink, AuthWrapper } from './AppBar.styled';
+import LoginIcon from '@mui/icons-material/Login';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import HomeIcon from '@mui/icons-material/Home';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectIsLoggedIn, selectUser } from 'redux/authSlice/selectors';
+import { logOut } from 'redux/authSlice/operations';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -43,7 +45,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -57,12 +58,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function NavAppBar() {
-  const [auth, setAuth] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleChange = event => {
-    setAuth(event.target.checked);
+  const dispatch = useDispatch();
+  const handleLogOut = () => {
+    dispatch(logOut());
   };
+  const auth = useSelector(selectIsLoggedIn);
+  const user = useSelector(selectUser);
+  const userName = user.name;
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleMenu = event => {
     setAnchorEl(event.currentTarget);
@@ -73,40 +76,39 @@ export default function NavAppBar() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <FormGroup>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={auth}
-              onChange={handleChange}
-              aria-label="login switch"
-            />
-          }
-          label={auth ? 'Logout' : 'Login'}
-        />
-      </FormGroup>
-      <AppBar position="static">
-        <Toolbar>
-          <NavLink to="/">Home</NavLink>
-          <>
-            <NavLink to="register">register</NavLink>
-            <NavLink to="login">login</NavLink>{' '}
-          </>
+    <AppBar position="static">
+      <Toolbar>
+        <NavWrapper>
+          <StyledNavLink to="/">
+            <HomeIcon sx={{ mr: 0.5 }} /> home
+          </StyledNavLink>
+          {!auth ? (
+            <AuthWrapper>
+              <StyledNavLink to="register">
+                <AssignmentIcon sx={{ mr: 0.5 }} />
+                register
+              </StyledNavLink>
 
-          {auth && (
+              <StyledNavLink to="login">
+                <LoginIcon sx={{ mr: 0.5 }} />
+                login
+              </StyledNavLink>
+            </AuthWrapper>
+          ) : null}
+        </NavWrapper>
+        {auth && (
+          <>
             <Search>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
               <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ 'aria-label': 'search' }}
+                placeholder="Search contacts"
+                inputProps={{ 'aria-label': 'search contacts' }}
               />
             </Search>
-          )}
-          {auth && (
             <div>
+              <p> hello pidor {userName} </p>
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -134,11 +136,12 @@ export default function NavAppBar() {
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleLogOut}>Log out</MenuItem>
               </Menu>
             </div>
-          )}
-        </Toolbar>
-      </AppBar>
-    </Box>
+          </>
+        )}
+      </Toolbar>
+    </AppBar>
   );
 }

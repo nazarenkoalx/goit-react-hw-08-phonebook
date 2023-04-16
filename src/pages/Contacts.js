@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 import { ContactList } from '../components/ContactList/ContactList';
 import 'react-toastify/dist/ReactToastify.css';
-import { selectContacts, selectVisibleContacts } from 'redux/selectors';
+import {
+  selectContacts,
+  selectVisibleContacts,
+} from 'redux/contactSlice/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchContacts } from 'redux/contactSlice/operations';
 import { Filter } from '../components/Filter/Filter';
