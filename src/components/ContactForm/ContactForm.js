@@ -7,7 +7,7 @@ import * as yup from 'yup';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { StyledForm } from 'components/Wrapper/FormWrapper.styled';
-import { ContactsFormWrapper } from './ContactForm.styled';
+import { ButtonWrapper, ContactsFormWrapper } from './ContactForm.styled';
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
@@ -81,9 +81,19 @@ export function ContactForm({ showModal }) {
           error={formik.touched.number && Boolean(formik.errors.number)}
           helperText={formik.touched.number && formik.errors.number}
         />
-        <Button color="primary" variant="contained" type="submit">
-          add contact
-        </Button>
+        <ButtonWrapper>
+          <Button
+            color="primary"
+            variant="contained"
+            type="button"
+            onClick={showModal}
+          >
+            close
+          </Button>
+          <Button color="primary" variant="contained" type="submit">
+            add contact
+          </Button>
+        </ButtonWrapper>
       </StyledForm>
     </ContactsFormWrapper>
   );
