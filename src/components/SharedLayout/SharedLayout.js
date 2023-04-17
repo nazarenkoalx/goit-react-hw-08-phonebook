@@ -1,20 +1,24 @@
 import NavAppBar from 'components/AppBar/AppBar';
-import { Container } from 'components/Container/Container.styled';
-import { Footer } from 'components/Footer/Footer';
+import {
+  AppWrapper,
+  Container,
+  MainWrapper,
+} from 'components/Container/Container.styled';
 import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const SharedLayout = () => {
   return (
-    <>
+    <AppWrapper>
       <NavAppBar />
-      <Container>
-        <Outlet />
-        <Footer />
-        <ToastContainer />
-      </Container>
-    </>
+      <MainWrapper>
+        <Container>
+          <Outlet />
+          <ToastContainer />
+        </Container>
+      </MainWrapper>
+    </AppWrapper>
   );
 };
 

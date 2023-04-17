@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 export const StyledContactList = styled.ul`
+  min-height: 200px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
