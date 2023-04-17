@@ -1,1 +1,0 @@
-{"version":3,"file":"static/js/433.e165a6ab.chunk.js","mappings":"4JAIA,UAJgB,WACd,OAAO,0CACR,C","sources":["pages/Landing.js"],"sourcesContent":["const Landing = () => {\n  return <main> Hello world</main>;\n};\n\nexport default Landing;\n"],"names":[],"sourceRoot":""}
