@@ -1,23 +1,25 @@
-import { Formik, Field, ErrorMessage } from 'formik';
-import { nanoid } from 'nanoid';
-import { Form, SubmitButton } from './ContactForm.styled';
-import { object, string } from 'yup';
-import { Section } from 'components/Section/Section.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/contactSlice/operations';
 import { selectContacts } from 'redux/contactSlice/selectors';
 import { notifyError, notifySuccess } from 'services/notifications';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import { StyledForm } from 'components/Wrapper/FormWrapper.styled';
+import { ContactsFormWrapper } from './ContactForm.styled';
+import { Typography } from '@mui/material';
+import PropTypes from 'prop-types';
 
-let ContactsSchema = object({
-  name: string()
-    .required()
-    .min(3, 'must be at least 3 characters long')
-    .max(20, 'must be less than 20 characters long'),
-  number: string().required(),
+const validationSchema = yup.object({
+  name: yup.string('Enter your name').required('Name is required'),
+  number: yup
+    .string('Enter your number')
+    .min(8, 'Number should be of minimum 8 characters length')
+    .required('Number is required'),
 });
 
-// .length(10, 'type 10 digits of phone number')
-export const ContactForm = () => {
+export function ContactForm({ showModal }) {
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
 
@@ -44,45 +46,49 @@ export const ContactForm = () => {
         `Contact ${name} was successfully added to yours contact book`
       );
       dispatch(addContact({ name, number }));
+      showModal();
     }
   };
-
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      number: '',
+    },
+    validationSchema: validationSchema,
+    onSubmit: ({ name, number }) => {
+      handleFormSubmit({ name, number });
+    },
+  });
   return (
-    <Section>
-      <h1>Contact Book</h1>
-      <Formik
-        initialValues={{
-          name: '',
-          number: '',
-        }}
-        onSubmit={(values, actions) => {
-          handleFormSubmit({ ...values });
-          actions.resetForm();
-        }}
-        validationSchema={ContactsSchema}
-      >
-        <Form>
-          <label htmlFor="name">Name</label>
-          <Field
-            type="text"
-            id={nanoid()}
-            name="name"
-            placeholder="Joe Biden"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          />
-          <ErrorMessage name="name" component="span" />
-          <label htmlFor="number">Phone</label>
-          <Field
-            type="tel"
-            id={nanoid()}
-            name="number"
-            placeholder="067-000-00-00"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          />
-          <ErrorMessage name="number" component="span" />
-          <SubmitButton type="submit">Add contact</SubmitButton>
-        </Form>
-      </Formik>
-    </Section>
+    <ContactsFormWrapper>
+      <Typography component="h2">Add contact</Typography>
+      <StyledForm onSubmit={formik.handleSubmit}>
+        <TextField
+          id="name"
+          name="name"
+          label="Name"
+          value={formik.values.name}
+          onChange={formik.handleChange}
+          error={formik.touched.email && Boolean(formik.errors.name)}
+          helperText={formik.touched.email && formik.errors.name}
+        />
+        <TextField
+          id="number"
+          name="number"
+          label="Number"
+          value={formik.values.number}
+          onChange={formik.handleChange}
+          error={formik.touched.number && Boolean(formik.errors.number)}
+          helperText={formik.touched.number && formik.errors.number}
+        />
+        <Button color="primary" variant="contained" type="submit">
+          add contact
+        </Button>
+      </StyledForm>
+    </ContactsFormWrapper>
   );
+}
+
+ContactForm.propTypes = {
+  showModal: PropTypes.func,
 };
