@@ -68,7 +68,12 @@ function SignUp() {
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password && formik.errors.password}
         />
-        <Button color="primary" variant="contained" type="submit">
+        <Button
+          color="primary"
+          variant="contained"
+          type="submit"
+          sx={{ backgroundColor: 'success.main' }}
+        >
           Sign Up
         </Button>
       </StyledForm>

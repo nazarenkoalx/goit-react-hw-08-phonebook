@@ -12,7 +12,10 @@ import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
 const validationSchema = yup.object({
-  name: yup.string('Enter your name').required('Name is required'),
+  name: yup
+    .string('Enter your name')
+    .min(2, 'Name should be of minimum 2 characters length')
+    .required('Name is required'),
   number: yup
     .string('Enter your number')
     .min(8, 'Number should be of minimum 8 characters length')
@@ -69,8 +72,8 @@ export function ContactForm({ showModal }) {
           label="Name"
           value={formik.values.name}
           onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.name)}
-          helperText={formik.touched.email && formik.errors.name}
+          error={formik.touched.name && Boolean(formik.errors.name)}
+          helperText={formik.touched.name && formik.errors.name}
         />
         <TextField
           id="number"
@@ -87,10 +90,16 @@ export function ContactForm({ showModal }) {
             variant="contained"
             type="button"
             onClick={showModal}
+            sx={{ backgroundColor: 'success.main' }}
           >
             close
           </Button>
-          <Button color="primary" variant="contained" type="submit">
+          <Button
+            color="primary"
+            variant="contained"
+            type="submit"
+            sx={{ backgroundColor: 'success.main' }}
+          >
             add contact
           </Button>
         </ButtonWrapper>

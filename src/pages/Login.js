@@ -56,8 +56,13 @@ const Login = () => {
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password && formik.errors.password}
         />
-        <Button color="primary" variant="contained" type="submit">
-Log In
+        <Button
+          color="primary"
+          variant="contained"
+          type="submit"
+          sx={{ backgroundColor: 'success.main' }}
+        >
+          Log In
         </Button>
       </StyledForm>
     </FormWrapper>
